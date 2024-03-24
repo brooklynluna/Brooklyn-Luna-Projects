@@ -1,0 +1,51 @@
+// Define pin numbers and variables
+#define leftSensor 10      // left sensor
+#define rightSensor 9       // right sensor
+#define leftMotor1 7      //motor Driver in1
+#define leftMotor2 6     //motor Driver in2
+#define rightMotor1 5      //motor Driver in3
+#define rightMotor2 4      //motor Driver in4
+
+void setup() {
+  pinMode(leftSensor, INPUT); //sets left and right sensors as inputs
+  pinMode(rightSensor, INPUT);
+  pinMode(leftMotor1, OUTPUT);// sets left and right motors as outputs
+  pinMode(leftMotor2, OUTPUT);
+  pinMode(rightMotor1, OUTPUT);
+  pinMode(rightMotor2, OUTPUT);
+  pinMode(ledPin, OUTPUT);// Ledpin is ouput
+  digitalWrite(ledPin, LOW);//LED only blinks when code is running
+  pinMode(speedPin, OUTPUT);
+}
+
+void loop() {
+  int leftValue = digitalRead(leftSensor);
+  int rightValue = digitalRead(rightSensor);
+
+  if (leftValue == LOW && rightValue == LOW) { // On the line
+    digitalWrite(leftMotor, HIGH);
+    analogWrite(rightMotor, 155); // Set right motor speed to 200
+  }
+  else if (leftValue == HIGH && rightValue == LOW) { // Turn left
+    digitalWrite(leftMotor, LOW);
+    analogWrite(rightMotor, 100); // Set right motor speed to 255 (max speed)
+  }
+  else if (leftValue == LOW && rightValue == HIGH) { // Turn right
+    digitalWrite(leftMotor, HIGH);
+    analogWrite(rightMotor, 100); // Set right motor speed to 100
+  }
+  else { // Lost the line
+    digitalWrite(leftMotor, LOW);//robot turns off
+    digitalWrite(rightMotor, LOW);
+  }
+
+  // Blink LED light
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
+
+  // Change motor speed
+  analogWrite(speedPin, 150); // Set speed to 150 (50% of max speed)
+}
+
